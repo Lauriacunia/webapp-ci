@@ -13,7 +13,7 @@ pipeline {
     stage('Build') {
       steps {
         script {
-          dir("webapp-ci") {
+          dir("webapp") {
             dockerImage = docker.build "${env.ARTIFACT_ID}"
           }
         }
@@ -26,7 +26,7 @@ pipeline {
     }
     stage('Publish') {
       when {
-        branch 'main'
+        branch 'master'
       }
       steps {
         script {
@@ -38,7 +38,7 @@ pipeline {
     }
     stage('Schedule Staging Deployment') {
       when {
-        branch 'main'
+        branch 'master'
       }
       steps {
         build job: 'deploy-webapp-staging', parameters: [string(name: 'ARTIFACT_ID', value: "${env.ARTIFACT_ID}")], wait: false
