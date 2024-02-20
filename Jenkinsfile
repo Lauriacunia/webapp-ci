@@ -12,16 +12,16 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        script {
-          dir("webapp") {
-            dockerImage = docker.build "${env.ARTIFACT_ID}"
-          }
+        dir("webapp") {
+          dockerImage = docker.build "${env.ARTIFACT_ID}"
         }
       }
     }
     stage('Run tests') {
       steps {
-        sh "docker run ${dockerImage.id} npm test"
+        script {
+          sh "docker run ${dockerImage.id} npm test"
+        }
       }
     }
     stage('Publish') {
@@ -46,4 +46,3 @@ pipeline {
     }
   }
 }
-
