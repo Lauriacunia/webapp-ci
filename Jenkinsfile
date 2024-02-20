@@ -13,8 +13,8 @@ pipeline {
     stage('Build') {
       steps {
         script {
-          dir("webapp-ci") {
-            dockerImage = docker.build "${env.ARTIFACT_ID}"
+          dir("webapp") {
+            dockerImage = docker.build("-f Dockerfile ${env.ARTIFACT_ID}")
           }
         }
       }
